@@ -1,0 +1,24 @@
+﻿<Page x:Class="SpaceInvadersJA.Presentation.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:SpaceInvadersJA.Presentation"
+      xmlns:uen="using:Uno.Extensions.Navigation.UI"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:um="using:Uno.Material"
+      NavigationCacheMode="Required"
+      Background="{ThemeResource BackgroundBrush}">
+    <Grid>
+        <StackPanel
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Spacing="20">
+            <TextBlock Text="{Binding Title}"
+                FontSize="36"
+                HorizontalAlignment="Center"
+                FontWeight="Bold"/>
+            <Button Content="Iniciar Juego"  Width="200" Height="50" Command="{Binding StartGameCommand}"/>
+            <Button Content="Ver Score"  Width="200" Height="50" Command="{Binding ViewScoreCommand}"/>
+            <Button Content="Ver Controles"  Width="200" Height="50"/>
+        </StackPanel>
+    </Grid>
+</Page>
