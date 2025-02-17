@@ -1,4 +1,4 @@
-using Uno.Resizetizer;
+using SpaceInvadersJA.ViewModels;
 
 namespace SpaceInvadersJA;
 public partial class App : Application
@@ -84,7 +84,7 @@ public partial class App : Application
 #if DEBUG
         MainWindow.UseStudio();
 #endif
-        MainWindow.SetWindowIcon();
+        //MainWindow.SetWindowIcon();
 
         Host = await builder.NavigateAsync<Shell>();
     }

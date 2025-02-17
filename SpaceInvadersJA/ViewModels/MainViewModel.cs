@@ -1,3 +1,5 @@
+using SpaceInvadersJA.ViewModels;
+
 namespace SpaceInvadersJA.Presentation;
 
 public partial class MainViewModel : ObservableObject

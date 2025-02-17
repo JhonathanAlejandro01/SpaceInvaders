@@ -7,18 +7,21 @@
       xmlns:uen="using:Uno.Extensions.Navigation.UI"
       xmlns:utu="using:Uno.Toolkit.UI"
       xmlns:um="using:Uno.Material"
-      Background="Black">
+      Background="Black"
+      IsTabStop="True"
+      IsTapEnabled="True"
+      KeyDown="Page_KeyDown">
 
-    <Grid x:Name="MainGrid" KeyDown="OnKeyDown">
+    <Grid x:Name="MainGrid">
         <TextBlock Text="{Binding Score}"
                    Foreground="White"
                    FontSize="24"
                    Margin="10,10,0,0"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Top"/>
-        <Canvas x:Name="GameCanvas" Background="Transparent">
-            <Rectangle x:Name="PlayerShip" Width="40" Height="20" Fill="LightGreen"/>
-        </Canvas>
+        <Canvas x:Name="GameCanvas" Background="Transparent"/>
+
+
 
     </Grid>
 </Page>

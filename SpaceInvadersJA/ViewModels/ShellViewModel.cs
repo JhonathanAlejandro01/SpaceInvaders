@@ -1,4 +1,4 @@
-namespace SpaceInvadersJA.Presentation;
+namespace SpaceInvadersJA.ViewModels;
 
 public class ShellViewModel
 {

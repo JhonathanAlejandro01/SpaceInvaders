@@ -56,5 +56,14 @@
   <ItemGroup>
     <AdditionalFiles Remove="Presentation\ScorePage.xaml" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Remove="Assets\Ships\si_characters.svg" />
+  </ItemGroup>
+  <ItemGroup>
+    <UnoImage Update="Assets\Ships\si_characters.svg" Link="Assets\Images\si_characters.svg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Assets\Ships\" />
+  </ItemGroup>
 
 </Project>
