@@ -1,13 +1,7 @@
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
+
 using Microsoft.UI.Xaml.Shapes;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI;
-using System;
-using System.Threading.Tasks;
-using System.Windows.Input;
 using Microsoft.UI.Dispatching;
-using static System.Formats.Asn1.AsnWriter;
+
 
 namespace SpaceInvadersJA.Presentation;
 
