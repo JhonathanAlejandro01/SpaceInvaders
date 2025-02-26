@@ -7,6 +7,7 @@ using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Microsoft.UI.Dispatching;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace SpaceInvadersJA.Presentation;
 
@@ -94,4 +95,6 @@ public partial class SecondViewModel : ObservableObject
     {
         // añadir la lógica de colisiones
     }
+
+    public string ScoreText => $"Score: {score}";
 }

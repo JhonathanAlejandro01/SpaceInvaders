@@ -54,6 +54,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Content Remove="Assets\Images\back.svg" />
     <Content Remove="Assets\Ships\si_characters.svg" />
   </ItemGroup>
   <ItemGroup>

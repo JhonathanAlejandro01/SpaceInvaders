@@ -12,7 +12,7 @@
     KeyDown="Page_KeyDown">
 
     <Grid x:Name="MainGrid">
-        <TextBlock Text="{Binding Score}"
+        <TextBlock Text="{Binding ScoreText}"
             Foreground="White"
             FontSize="24"
             Margin="10,10,0,0"
