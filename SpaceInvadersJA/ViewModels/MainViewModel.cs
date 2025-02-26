@@ -14,21 +14,21 @@ public partial class MainViewModel : ObservableObject
         _navigator = navigator;
         Title = "Space Invaders";
         StartGameCommand = new AsyncRelayCommand(StartGame);
-        ViewScoreCommand = new AsyncRelayCommand(ViewScore);
+        ViewControlsCommand = new AsyncRelayCommand(ViewControls);
     }
 
     public string Title { get; }
     public ICommand StartGameCommand { get; }
-    public ICommand ViewScoreCommand { get; }
+    public ICommand ViewControlsCommand { get; }
 
     private async Task StartGame()
     {
         await _navigator.NavigateViewModelAsync<SecondViewModel>(this);
     }
 
-    private async Task ViewScore()
+    private async Task ViewControls()
     {
-        await _navigator.NavigateViewModelAsync<ScoreViewModel>(this);
+        await _navigator.NavigateViewModelAsync<ControlsViewModel>(this);
     }
 
 }

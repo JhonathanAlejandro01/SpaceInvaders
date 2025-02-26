@@ -6,8 +6,12 @@
       xmlns:utu="using:Uno.Toolkit.UI"
       xmlns:um="using:Uno.Material"
       NavigationCacheMode="Required"
-      Background="{ThemeResource BackgroundBrush}">
+      Background="{ThemeResource BackgroundBrush}"
+      >
     <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="ms-appx:///Assets/Images/SpaceInvaders_Background.png" Stretch="UniformToFill"/>
+        </Grid.Background>
         <StackPanel
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
@@ -17,8 +21,7 @@
                 HorizontalAlignment="Center"
                 FontWeight="Bold"/>
             <Button Content="Iniciar Juego"  Width="200" Height="50" Command="{Binding StartGameCommand}"/>
-            <Button Content="Ver Score"  Width="200" Height="50" Command="{Binding ViewScoreCommand}"/>
-            <Button Content="Ver Controles"  Width="200" Height="50"/>
+            <Button Content="Ver Controles"  Width="200" Height="50" Command="{Binding ViewControlsCommand}"/>
         </StackPanel>
     </Grid>
 </Page>
