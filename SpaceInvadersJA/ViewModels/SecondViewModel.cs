@@ -13,8 +13,8 @@ namespace SpaceInvadersJA.Presentation;
 
 public partial class SecondViewModel : ObservableObject
 {
-    private const int PlayerSpeed = 10;  // Velocidad del jugador
-    private const int BulletSpeed = 5;   // Velocidad del disparo
+    private const int PlayerSpeed = 10;
+    private const int BulletSpeed = 5;
     private DispatcherTimer _gameLoopTimer;
     private Canvas _gameCanvas;
     private Rectangle _playerShip;
