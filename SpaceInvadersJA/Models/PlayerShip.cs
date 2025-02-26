@@ -6,15 +6,17 @@ public class PlayerShip : GameEntity
 {
     private double _speedMove;
     private Canvas _canvas;
-    private const double SHIP_WIDTH = 50;
-    private const double SHIP_HEIGHT = 50;
+    private const double SHIP_WIDTH = 60;
+    private const double SHIP_HEIGHT = 60;
 
+    public static double ShipWidth => SHIP_WIDTH;
+    public static double ShipHeight => SHIP_HEIGHT;
 
     public PlayerShip(
         double initialXPosition,
         double initialYPosition,
         Canvas ParamCanvas
-        ): base("ms-appx:///Assets/Images/ship.png", initialXPosition, initialYPosition, SHIP_WIDTH, SHIP_HEIGHT)
+        ): base("ms-appx:///Assets/Images/playerShip.gif", initialXPosition, initialYPosition, SHIP_WIDTH, SHIP_HEIGHT)
     {
         _canvas = ParamCanvas;
         _speedMove = 10;
@@ -26,7 +28,7 @@ public class PlayerShip : GameEntity
         const int MARGIN_LEFT = 10;
         if (PositionX > MARGIN_LEFT)
         {
-            base.Move(-(_speedMove), 0);
+            base.Move(-(_speedMove));
         }
     }
     public void MoveRight(double ParamCanvasWidth)
@@ -48,7 +50,7 @@ public class PlayerShip : GameEntity
         if ((PositionX + _speedMove + Width) < (ParamCanvasWidth - marginRight))
         {
             Debug.WriteLine("se movio");
-            base.Move(_speedMove, 0);
+            base.Move(_speedMove);
         }
     }
 }

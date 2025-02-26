@@ -35,15 +35,19 @@ public abstract class GameEntity
         Canvas.SetLeft(Sprite,_positionX);
     }
 
-    public virtual void Move(
-        double MovePositionX,
-        double MovePositionY
-        )
+    public virtual void Move(double MovePositionX, double MovePositionY = 0)
     {
-        _positionY += MovePositionY;
         _positionX += MovePositionX;
+        _positionY += MovePositionY;
         Canvas.SetLeft(Sprite, _positionX);
         Canvas.SetTop(Sprite, _positionY);
+    }
 
+    public void SetPosition(double x, double y)
+    {
+        _positionX = x;
+        _positionY = y;
+        Canvas.SetLeft(Sprite, _positionX);
+        Canvas.SetTop(Sprite, _positionY);
     }
 }
