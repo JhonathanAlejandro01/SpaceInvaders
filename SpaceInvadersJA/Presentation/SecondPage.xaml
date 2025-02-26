@@ -12,6 +12,9 @@
     KeyDown="Page_KeyDown">
 
     <Grid x:Name="MainGrid">
+        <Grid.Background>
+            <ImageBrush ImageSource="ms-appx:///Assets/Images/bg.gif" Stretch="UniformToFill"/>
+        </Grid.Background>
         <TextBlock Text="{Binding ScoreText}"
             Foreground="White"
             FontSize="24"

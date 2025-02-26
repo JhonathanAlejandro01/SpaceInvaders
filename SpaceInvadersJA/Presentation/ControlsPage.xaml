@@ -14,7 +14,7 @@
       <RowDefinition Height="Auto" />
       <RowDefinition />
     </Grid.RowDefinitions>
-        <utu:NavigationBar Content="Controls Page">
+        <utu:NavigationBar Content="Controls">
       <utu:NavigationBar.MainCommand>
         <AppBarButton>
           <AppBarButton.Icon>
@@ -23,14 +23,34 @@
         </AppBarButton>
       </utu:NavigationBar.MainCommand>
     </utu:NavigationBar>
-        <StackPanel Grid.Row="1"
-          HorizontalAlignment="Center"
-          VerticalAlignment="Center">
-        <TextBlock Text="Controls Page"
-        HorizontalAlignment="Center"
-        VerticalAlignment="Center"
-        Margin="8" />
-    </StackPanel>
+        <!-- Controls Section -->
+        <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
+
+            <TextBlock Text="Game Controls" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" />
+
+            <!-- Control: Left Movement -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
+                <Image Source="ms-appx:///Assets/Images/left-arrow.png" Width="50" Height="50"/>
+                <Image Source="ms-appx:///Assets/Images/key-a.png" Width="50" Height="50"/>
+                <Image Source="ms-appx:///Assets/Images/key-j.png" Width="50" Height="50"/>
+                <TextBlock Text="Move Left - Left Arrow / A / J" VerticalAlignment="Center"/>
+            </StackPanel>
+
+            <!-- Control: Movement Right -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
+                <Image Source="ms-appx:///Assets/Images/right-arrow.png" Width="50" Height="50"/>
+                <Image Source="ms-appx:///Assets/Images/key-d.png" Width="50" Height="50"/>
+                <Image Source="ms-appx:///Assets/Images/key-l.png" Width="50" Height="50"/>
+                <TextBlock Text="Move Right - Right Arrow / D / L" VerticalAlignment="Center"/>
+            </StackPanel>
+
+            <!-- Control: Shooting -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
+                <Image Source="ms-appx:///Assets/Images/space-bar.png" Width="80" Height="50"/>
+                <TextBlock Text="Shoot - Space Bar" VerticalAlignment="Center"/>
+            </StackPanel>
+
+        </StackPanel>
 
   </Grid>
 </Page>

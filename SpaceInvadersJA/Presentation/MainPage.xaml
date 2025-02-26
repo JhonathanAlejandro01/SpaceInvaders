@@ -12,16 +12,48 @@
         <Grid.Background>
             <ImageBrush ImageSource="ms-appx:///Assets/Images/SpaceInvaders_Background.png" Stretch="UniformToFill"/>
         </Grid.Background>
-        <StackPanel
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Spacing="20">
-            <TextBlock Text="{Binding Title}"
-                FontSize="36"
-                HorizontalAlignment="Center"
-                FontWeight="Bold"/>
-            <Button Content="Iniciar Juego"  Width="200" Height="50" Command="{Binding StartGameCommand}"/>
-            <Button Content="Ver Controles"  Width="200" Height="50" Command="{Binding ViewControlsCommand}"/>
-        </StackPanel>
+        <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/> 
+                <ColumnDefinition Width="50"/>  
+                <ColumnDefinition Width="Auto"/> 
+            </Grid.ColumnDefinitions>
+
+            <!-- Title -->
+            <TextBlock Grid.Row="0" Grid.ColumnSpan="3" Text="Space Invaders" 
+                       FontSize="36" FontWeight="Bold" Foreground="White"
+                       HorizontalAlignment="Center"/>
+
+            <!-- Enemy images -->
+            <Image Grid.Row="1" Grid.Column="0" Source="../Assets/Images/basicEnemy.gif" Margin="10" Height="50"/>
+            <Image Grid.Row="2" Grid.Column="0" Source="../Assets/Images/mediumEnemy.gif" Margin="10" Height="50"/>
+            <Image Grid.Row="3" Grid.Column="0" Source="../Assets/Images/AdvancedEnemy.gif" Margin="10" Height="50"/>
+            <Image Grid.Row="4" Grid.Column="0" Source="../Assets/Images/mystery.gif" Margin="10" Height="50"/>
+
+            <!-- Points for each enemy -->
+            <TextBlock Grid.Row="1" Grid.Column="2" Text="10 PTS" FontSize="18" FontWeight="Bold" Foreground="White"/>
+            <TextBlock Grid.Row="2" Grid.Column="2" Text="20 PTS" FontSize="18" FontWeight="Bold" Foreground="White"/>
+            <TextBlock Grid.Row="3" Grid.Column="2" Text="30 PTS" FontSize="18" FontWeight="Bold" Foreground="White"/>
+            <TextBlock Grid.Row="4" Grid.Column="2" Text="??? PTS" FontSize="18" FontWeight="Bold" Foreground="White"/>
+
+            <!-- Correctly aligned buttons -->
+            <StackPanel Grid.Row="7" Grid.ColumnSpan="3" Orientation="Vertical" HorizontalAlignment="Center">
+                <Button Content="Iniciar Juego" Width="200" Height="50" Margin="10"
+                        Command="{Binding StartGameCommand}"/>
+                <Button Content="Ver Controles" Width="200" Height="50" Margin="10"
+                        Command="{Binding ViewControlsCommand}"/>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Page>
