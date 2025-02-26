@@ -7,4 +7,7 @@
   -->
   <ItemGroup>
   </ItemGroup>
+  <ItemGroup>
+    <PackageVersion Include="Uno.UI" Version="5.6.70" />
+  </ItemGroup>
 </Project>
