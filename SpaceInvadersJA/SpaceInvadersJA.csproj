@@ -48,22 +48,42 @@
     </UnoFeatures>
   </PropertyGroup>
   <ItemGroup>
-    <Page Update="Presentation\ScorePage.xaml">
+    <Page Update="Presentation\ControlsPage.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SourceItemGroup>Page</SourceItemGroup>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <AdditionalFiles Remove="Presentation\ScorePage.xaml" />
+    <Content Remove="Assets\Ships\si_characters.svg" />
   </ItemGroup>
   <ItemGroup>
-    <Content Remove="Assets\Ships\si_characters.svg" />
+    <None Remove="Models\SecondPage.xaml" />
+    <None Remove="Presentation\SecondPage.xaml" />
   </ItemGroup>
   <ItemGroup>
     <UnoImage Update="Assets\Ships\si_characters.svg" Link="Assets\Images\si_characters.svg" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\Ships\" />
+  </ItemGroup>
+  <ItemGroup>
+    <AdditionalFiles Remove="Presentation\MainPage.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AdditionalFiles Remove="Presentation\ControlsPage.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Presentation\SecondPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Models\SecondPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <AdditionalFiles Remove="Presentation\SecondPage.xaml" />
   </ItemGroup>
 
 </Project>
