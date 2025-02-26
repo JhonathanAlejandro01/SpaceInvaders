@@ -2,9 +2,9 @@ using Microsoft.UI.Xaml.Input;
 
 namespace SpaceInvadersJA.Presentation;
 
-public sealed partial class ScorePage : Page
+public sealed partial class ControlsPage : Page
 {
-    public ScorePage()
+    public ControlsPage()
     {
         this.InitializeComponent();
     }
