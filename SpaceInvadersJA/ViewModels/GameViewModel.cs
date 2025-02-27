@@ -5,7 +5,7 @@ using Microsoft.UI.Dispatching;
 
 namespace SpaceInvadersJA.Presentation;
 
-public partial class SecondViewModel : ObservableObject
+public partial class GameViewModel : ObservableObject
 {
     private const int PlayerSpeed = 10;
     private const int BulletSpeed = 5;
@@ -17,7 +17,7 @@ public partial class SecondViewModel : ObservableObject
     [ObservableProperty]
     private int score;
 
-    public SecondViewModel()
+    public GameViewModel()
     {
         Score = 0;
         DispatcherQueue.GetForCurrentThread()?.TryEnqueue(() =>

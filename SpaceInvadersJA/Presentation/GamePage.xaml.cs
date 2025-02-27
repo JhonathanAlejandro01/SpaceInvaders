@@ -8,7 +8,7 @@ using Newtonsoft.Json.Bson;
 
 namespace SpaceInvadersJA.Presentation;
 
-public sealed partial class SecondPage : Page
+public sealed partial class GamePage : Page
 {
     private double _canvasWidth;
     private double _canvasHeight;
@@ -16,7 +16,7 @@ public sealed partial class SecondPage : Page
     private List<Enemy> enemyShips = new();
 
 
-    public SecondPage()
+    public GamePage()
     {
         this.InitializeComponent();
         this.Loaded += OnPageLoaded;
