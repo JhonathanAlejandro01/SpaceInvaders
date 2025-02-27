@@ -36,10 +36,10 @@
                        HorizontalAlignment="Center"/>
 
             <!-- Enemy images -->
-            <Image Grid.Row="1" Grid.Column="0" Source="../Assets/Images/basicEnemy.gif" Margin="10" Height="50"/>
-            <Image Grid.Row="2" Grid.Column="0" Source="../Assets/Images/mediumEnemy.gif" Margin="10" Height="50"/>
-            <Image Grid.Row="3" Grid.Column="0" Source="../Assets/Images/AdvancedEnemy.gif" Margin="10" Height="50"/>
-            <Image Grid.Row="4" Grid.Column="0" Source="../Assets/Images/mystery.gif" Margin="10" Height="50"/>
+            <Image Grid.Row="1" Grid.Column="0" Source="ms-appx:///Assets/Images/basicEnemy.gif" Margin="10" Height="50"/>
+            <Image Grid.Row="2" Grid.Column="0" Source="ms-appx:///Assets/Images/mediumEnemy.gif" Margin="10" Height="50"/>
+            <Image Grid.Row="3" Grid.Column="0" Source="ms-appx:///Assets/Images/AdvancedEnemy.gif" Margin="10" Height="50"/>
+            <Image Grid.Row="4" Grid.Column="0" Source="ms-appx:///Assets/Images/mystery.gif" Margin="10" Height="50"/>
 
             <!-- Points for each enemy -->
             <TextBlock Grid.Row="1" Grid.Column="2" Text="10 PTS" FontSize="18" FontWeight="Bold" Foreground="White"/>
@@ -49,9 +49,9 @@
 
             <!-- Correctly aligned buttons -->
             <StackPanel Grid.Row="7" Grid.ColumnSpan="3" Orientation="Vertical" HorizontalAlignment="Center">
-                <Button Content="Iniciar Juego" Width="200" Height="50" Margin="10"
+                <Button Content="Start Game" Width="200" Height="50" Margin="10"
                         Command="{Binding StartGameCommand}"/>
-                <Button Content="Ver Controles" Width="200" Height="50" Margin="10"
+                <Button Content="See Controls" Width="200" Height="50" Margin="10"
                         Command="{Binding ViewControlsCommand}"/>
             </StackPanel>
         </Grid>

@@ -23,7 +23,7 @@ public partial class MainViewModel : ObservableObject
 
     private async Task StartGame()
     {
-        await _navigator.NavigateViewModelAsync<SecondViewModel>(this);
+        await _navigator.NavigateViewModelAsync<GameViewModel>(this);
     }
 
     private async Task ViewControls()
