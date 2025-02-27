@@ -14,9 +14,8 @@ public partial class GameViewModel : ObservableObject
 {
     private PlayerShip player;
     private List<Enemy> enemyShips = new();
+    private DeployBlocks _deployBlocks;
 
-    private const int PlayerSpeed = 10;
-    private const int BulletSpeed = 5;
     private const int EnemyMoveStepX = 10;
     private const int EnemyMoveStepY = 20;
     private const int MoveDelay = 500;
@@ -59,12 +58,14 @@ public partial class GameViewModel : ObservableObject
             if (_canvasWidth == 0 || _canvasHeight == 0)
             {
                 Debug.WriteLine("⚠️ Advertencia: El Canvas aún no está listo. Posponiendo inicialización.");
-                return; // Detenemos la ejecución para evitar fallos.
+                _gameCanvas.SizeChanged += (s, e) => Initialize(gameCanvas);
+                return;
             }
 
             InitializePlayer();
             GenerateEnemyFormation();
             MoveEnemiesAsync();
+            _deployBlocks = new DeployBlocks(_gameCanvas);
         }
         catch (Exception ex)
         {
@@ -79,7 +80,7 @@ public partial class GameViewModel : ObservableObject
 
     private void InitializePlayer()
     {
-        double initialShipX = (_canvasWidth / 2) - (PlayerShip.ShipHeight / 2);
+        double initialShipX = (_canvasWidth / 2) - (PlayerShip.ShipWidth / 2);
         double initialShipY = _canvasHeight - (PlayerShip.ShipHeight + 20);
 
         player = new PlayerShip(initialShipX, initialShipY, _gameCanvas);
