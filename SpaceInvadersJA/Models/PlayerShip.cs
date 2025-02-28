@@ -8,7 +8,7 @@ public class PlayerShip : GameEntity
     private Canvas _canvas;
     private const double SHIP_WIDTH = 60;
     private const double SHIP_HEIGHT = 60;
-
+    public double Lives { get; set; } = 3;
     public static double ShipWidth => SHIP_WIDTH;
     public static double ShipHeight => SHIP_HEIGHT;
 

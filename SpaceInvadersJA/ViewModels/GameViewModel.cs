@@ -1,12 +1,7 @@
-
-using Microsoft.UI.Xaml.Shapes;
-using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml.Input;
 using Windows.System;
 using System.Diagnostics;
-
-
-
+using Microsoft.UI.Xaml.Media.Imaging;
 
 namespace SpaceInvadersJA.Presentation;
 
@@ -19,18 +14,25 @@ public partial class GameViewModel : ObservableObject
     private const int EnemyMoveStepX = 10;
     private const int EnemyMoveStepY = 20;
     private const int MoveDelay = 500;
-    private bool bulletInScreen = false;
+    private List<Bullet> playerBullets = new();
+    private List<Bullet> enemyBullets = new();
 
     private DispatcherTimer _gameLoopTimer;
+    private DispatcherTimer enemyShootingTimer;
     private Canvas _gameCanvas;
     private bool movingRight = true;
     private bool gameRunning = true;
     private double _canvasWidth;
     private double _canvasHeight;
+    private Random random = new();
 
+    // Cada 1000 puntos se otorga una vida extra hasta 6
+    private int extraLifeThreshold = 1000;
 
     [ObservableProperty]
     private int score;
+
+    public string ScoreText => $"Score: {Score}";
 
     public GameViewModel()
     {
@@ -47,6 +49,12 @@ public partial class GameViewModel : ObservableObject
         }
     }
 
+    // Se notifica el cambio de ScoreText cuando cambia el Score.
+    partial void OnScoreChanged(int oldValue, int newValue)
+    {
+        OnPropertyChanged(nameof(ScoreText));
+    }
+
     public void Initialize(Canvas gameCanvas)
     {
         try
@@ -57,7 +65,7 @@ public partial class GameViewModel : ObservableObject
 
             if (_canvasWidth == 0 || _canvasHeight == 0)
             {
-                Debug.WriteLine("⚠️ Advertencia: El Canvas aún no está listo. Posponiendo inicialización.");
+                Debug.WriteLine("⚠️ El Canvas aún no está listo. Posponiendo inicialización.");
                 _gameCanvas.SizeChanged += (s, e) => Initialize(gameCanvas);
                 return;
             }
@@ -65,6 +73,7 @@ public partial class GameViewModel : ObservableObject
             InitializePlayer();
             GenerateEnemyFormation();
             MoveEnemiesAsync();
+            StartEnemyShooting();
             _deployBlocks = new DeployBlocks(_gameCanvas);
         }
         catch (Exception ex)
@@ -76,13 +85,14 @@ public partial class GameViewModel : ObservableObject
     public void StopGame()
     {
         gameRunning = false;
+        _gameLoopTimer?.Stop();
+        enemyShootingTimer?.Stop();
     }
 
     private void InitializePlayer()
     {
         double initialShipX = (_canvasWidth / 2) - (PlayerShip.ShipWidth / 2);
         double initialShipY = _canvasHeight - (PlayerShip.ShipHeight + 20);
-
         player = new PlayerShip(initialShipX, initialShipY, _gameCanvas);
         _gameCanvas.Children.Add(player.Sprite);
     }
@@ -90,7 +100,6 @@ public partial class GameViewModel : ObservableObject
     public void HandleKeyPress(KeyRoutedEventArgs e)
     {
         e.Handled = true;
-
         if (e.OriginalKey == VirtualKey.Left || e.OriginalKey == VirtualKey.A || e.OriginalKey == VirtualKey.J)
         {
             player?.MoveLeft();
@@ -105,21 +114,23 @@ public partial class GameViewModel : ObservableObject
         }
     }
 
+    // Solo se dispara si no hay ya una bala del jugador en pantalla
     private void FireBullet()
     {
-        if (bulletInScreen) return;
+        if (playerBullets.Any())
+            return;
 
-        bulletInScreen = true;
-
-        double bulletX = player.PositionX + (player.Width / 2)- 30;
+        double bulletX = player.PositionX + (player.Width / 2) - 30;
         double bulletY = player.PositionY - 30;
-
-        Bullet bullet = new Bullet(_gameCanvas, bulletX, bulletY);
+        var bullet = new Bullet(_gameCanvas, bulletX, bulletY, BulletOwner.Player);
+        playerBullets.Add(bullet);
         _ = bullet.MoveUp().ContinueWith(_ =>
         {
             _gameCanvas.DispatcherQueue.TryEnqueue(() =>
             {
-                bulletInScreen = false; // Cuando la bala desaparezca, permitir disparar otra
+                if (_gameCanvas.Children.Contains(bullet.Sprite))
+                    _gameCanvas.Children.Remove(bullet.Sprite);
+                playerBullets.Remove(bullet);
             });
         });
     }
@@ -133,13 +144,18 @@ public partial class GameViewModel : ObservableObject
         double startX = (_canvasWidth - (cols * spacingX)) / 2;
         double startY = 40;
 
+        foreach (var enemy in enemyShips)
+        {
+            _gameCanvas.Children.Remove(enemy.Sprite);
+        }
+        enemyShips.Clear();
+
         for (int row = 0; row < rows; row++)
         {
             for (int col = 0; col < cols; col++)
             {
                 double x = startX + col * spacingX;
                 double y = startY + row * spacingY;
-
                 Enemy enemy = row switch
                 {
                     0 => new MysteryEnemy(x, y),
@@ -147,7 +163,6 @@ public partial class GameViewModel : ObservableObject
                     2 or 3 => new MediumEnemy(x, y),
                     _ => new BasicEnemy(x, y)
                 };
-
                 enemyShips.Add(enemy);
                 _gameCanvas.Children.Add(enemy.Sprite);
             }
@@ -162,18 +177,16 @@ public partial class GameViewModel : ObservableObject
             {
                 await Task.Delay(MoveDelay);
                 bool reachedBorder = false;
-
                 foreach (var enemy in enemyShips)
                 {
                     double currentX = Canvas.GetLeft(enemy.Sprite);
                     double newX = movingRight ? currentX + EnemyMoveStepX : currentX - EnemyMoveStepX;
-
                     if (newX <= 0 || newX >= _canvasWidth - enemy.Sprite.Width)
                     {
                         reachedBorder = true;
+                        break;
                     }
                 }
-
                 _gameCanvas.DispatcherQueue.TryEnqueue(() =>
                 {
                     if (reachedBorder)
@@ -195,7 +208,6 @@ public partial class GameViewModel : ObservableObject
                         }
                     }
                 });
-
             }
         }
         catch (Exception ex)
@@ -204,11 +216,105 @@ public partial class GameViewModel : ObservableObject
         }
     }
 
+    private void StartEnemyShooting()
+    {
+        enemyShootingTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(4000) };
+        enemyShootingTimer.Tick += EnemyShootingLoop;
+        enemyShootingTimer.Start();
+    }
+
+    private void EnemyShootingLoop(object sender, object e)
+    {
+        var advancedEnemies = enemyShips.Where(enemy => enemy is AdvancedEnemy).ToList();
+        if (advancedEnemies.Any())
+        {
+            var selectedEnemy = advancedEnemies[random.Next(advancedEnemies.Count)];
+            FireEnemyBullet(selectedEnemy);
+        }
+    }
+
+    private void FireEnemyBullet(Enemy enemy)
+    {
+        double bulletX = Canvas.GetLeft(enemy.Sprite) + (enemy.Sprite.Width / 2) - 30;
+        double bulletY = Canvas.GetTop(enemy.Sprite) + enemy.Sprite.Height;
+        var bullet = new Bullet(_gameCanvas, bulletX, bulletY, BulletOwner.Enemy);
+        enemyBullets.Add(bullet);
+        _ = bullet.MoveDown().ContinueWith(_ =>
+        {
+            _gameCanvas.DispatcherQueue.TryEnqueue(() =>
+            {
+                if (_gameCanvas.Children.Contains(bullet.Sprite))
+                    _gameCanvas.Children.Remove(bullet.Sprite);
+                enemyBullets.Remove(bullet);
+            });
+        });
+    }
 
     private void GameLoop(object sender, object e)
     {
-        // añadir la lógica de colisiones
+        // Colisiones de balas del jugador contra enemigos
+        foreach (var bullet in playerBullets.ToList())
+        {
+            foreach (var enemy in enemyShips.ToList())
+            {
+                if (CheckCollision(bullet, enemy))
+                {
+                    _ = ExplodeEnemy(enemy, bullet);
+                    break;
+                }
+            }
+        }
+        // Colisiones de balas enemigas contra el jugador
+        foreach (var bullet in enemyBullets.ToList())
+        {
+            if (CheckCollision(bullet, player))
+            {
+                _gameCanvas.Children.Remove(bullet.Sprite);
+                enemyBullets.Remove(bullet);
+                player.Lives -= 1;
+                break;
+            }
+        }
     }
 
-    public string ScoreText => $"Score: {score}";
+    private bool CheckCollision(GameEntity a, GameEntity b)
+    {
+        double aLeft = Canvas.GetLeft(a.Sprite);
+        double aTop = Canvas.GetTop(a.Sprite);
+        double aRight = aLeft + a.Sprite.Width;
+        double aBottom = aTop + a.Sprite.Height;
+
+        double bLeft = Canvas.GetLeft(b.Sprite);
+        double bTop = Canvas.GetTop(b.Sprite);
+        double bRight = bLeft + b.Sprite.Width;
+        double bBottom = bTop + b.Sprite.Height;
+
+        return aLeft < bRight && aRight > bLeft && aTop < bBottom && aBottom > bTop;
+    }
+
+    private async Task ExplodeEnemy(Enemy enemy, Bullet bullet)
+    {
+        // enemy.Sprite.Source = new BitmapImage(new Uri("ms-appx:///Assets/Images/"));
+        await Task.Delay(200);
+        _gameCanvas.Children.Remove(enemy.Sprite);
+        enemyShips.Remove(enemy);
+
+        Score += enemy.ScoreValue;
+        if (Score >= extraLifeThreshold && player.Lives < 6)
+        {
+            player.Lives += 1;
+            extraLifeThreshold += 1000;
+        }
+
+        if (bullet.Owner == BulletOwner.Player)
+        {
+            _gameCanvas.Children.Remove(bullet.Sprite);
+            playerBullets.Remove(bullet);
+        }
+
+        if (!enemyShips.Any())
+        {
+            GenerateEnemyFormation();
+        }
+    }
 }
